@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-def create_classifier(classes=2, dropout_rate=0.1, shape_img):
+def create_classifier(classes=2, dropout_rate=0.1, shape_img=(720, 1280)):
     input = tf.keras.layers.Input(shape=shape_img)
 
     # convolutional layers
@@ -52,4 +52,4 @@ def create_classifier(classes=2, dropout_rate=0.1, shape_img):
 
 if __name__ == '__main__':
     #shape_img = (720, 1280)
-    create_classifier(classes=2, dropout_rate=0.1, shape_img)
+    create_classifier(classes=2, dropout_rate=0.1, shape_img=(720, 1280))

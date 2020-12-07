@@ -1,12 +1,47 @@
-# This is a sample Python script.
+from metric import metric
+from create_classifier import create_classifier
+import tensorflow as tf
+import train
+import glob
+import imageio
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+#run converter - get single frames (rgb and depth)
+
+#load trained ddae model (nyu dataset)
+#create classifier model (could be pretrained) and load initial weights
+
+# over x batches:
+    #for every pair of frames:
+        #autoencoder forward - get denoised depth images
+        #run difodo on denoised depth images - get trajectory
+        #run metric - save to a file/list/whatever whether good or bad
+        #classifier forward denoised depth images - get scores for good or bad
+        #loss function - compare metric and classifier results
+        #backpropagate error, update all weights in ae and classifier
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+
+#run metric
+label = metric(DifodoFilePath='trajectoryDIFODO.txt')
+
+#load file that records all depth images timestep and filename
+with open('depth.txt') as depth:
+    images = depth.readlines()
+
+#get path for first image
+image1_path = images[1].split()[1]
+image1 = imageio.imread(image1_path)
+shape = image1.shape
+
+#create classifier
+model = create_classifier(classes=2, dropout_rate=0.1, shape_img=shape)
+
+#compile classifier
+model.compile(optimizer=tf.keras.optimizers.Adam(lr=0.0001),
+                        loss='binary_crossentropy',
+                        metrics=['accuracy'])
+#train classifier
+model.fit(image1, )
 
 
 # Press the green button in the gutter to run the script.
