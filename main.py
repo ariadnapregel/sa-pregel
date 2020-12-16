@@ -1,14 +1,24 @@
 from metric import metric
 from create_classifier import create_classifier
 import tensorflow as tf
+from ddae import training_v2
 import train
 import glob
 import imageio
 
 #run converter - get single frames (rgb and depth)
 
+
 #load trained ddae model (nyu dataset)
+autoencoder = training_v2
+
 #create classifier model (could be pretrained) and load initial weights
+model = create_classifier(classes=2, dropout_rate=0.1, shape_img=shape)
+
+#compile classifier
+model.compile(optimizer=tf.keras.optimizers.Adam(lr=0.0001),
+                        loss='binary_crossentropy',
+                        metrics=['accuracy'])
 
 # over x batches:
     #for every pair of frames:
